@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>To-do List</title>
+    <style>
+        body {
+            font-family: Arial;
+        }
+
+        .todo-grid, .todo-input-grid {
+            display: grid;
+            grid-template-columns: 200px 150px 100px;
+            gap: 10px;
+            align-items: center;
+            font-size: 15px;
+
+        }
+        .todo-grid {
+            margin-top: 10px;
+            align-items: stretch;
+        }
+
+        .name-input, .date-input,.input-name,.input-date {
+            font-size: 15px;
+            padding: 6px;
+        }
+        .add-btn, .delete-btn {
+            cursor: pointer;
+            background-color: green;
+            color: white;
+            font-weight: bold;
+            border: none;
+            padding: 10px 0;
+        }
+        .delete-btn {
+            background-color: darkred;
+        }
+
+    </style>
+</head>
+
+<body>
+   <h3>A simple To-do List</h3>
+   <div class="todo-input-grid">
+        <input type="text" class="js-todo-input name-input" placeholder="Please Enter your event">
+        <input type="date" class="js-date-input date-input">
+        <button class="add-btn event-btn">Add</button>
+   </div>
+   <div class="js-todo-list todo-grid"></div>
+
+    <script>
+        
+        const todoList = []
+
+        
+
+         document.querySelector('.event-btn').addEventListener('click', () => {
+            addTodo()
+         })
+        function renderHtml(){
+
+        let htmlList = ''
+        todoList.forEach((todoObject, index) => {
+            const {name, date} = todoObject
+            const html = `<div class="input-name">${name}</div><div class="input-date">${date}</div>
+                 <button  class="delete-btn">Delete</button>`
+            htmlList += html
+        })
+       
+        
+        document.querySelector('.js-todo-list').innerHTML = htmlList
+        document.querySelectorAll('.delete-btn').forEach( (deletebtn, index) => {
+            deletebtn.addEventListener('click',() => {
+                todoList.splice(index,1)
+                 renderHtml()
+            } )
+        })
+    }
+
+        function addTodo() {
+            const inputEl= document.querySelector('.js-todo-input');
+            const name = inputEl.value
+            const dateEl = document.querySelector('.js-date-input')
+            const date = dateEl.value
+            todoList.push({name,date });
+            
+
+            inputEl.value =''
+            renderHtml()
+        }
+    </script>
+</body>
+</html>
